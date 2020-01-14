@@ -9,8 +9,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install luarocks
-      run: apt get install luarocks
+    - uses: leafo/gh-actions-lua@v5
+      with:
+        luaVersion: "5.1.5"
+    - uses: leafo/gh-actions-luarocks@v2
+
+    - name: build
+      run: |
+        luarocks install busted
+        luarocks make
+        
+    - name: test
+      run: |
+        busted 
+
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
