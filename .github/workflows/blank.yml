@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        luaVersion: ["5.1.5", "5.2.4"]
+        luaVersion: ["5.1.5", "5.2.4", "5.3.5", "luajit-2.0.5"]
 
     steps:
 
