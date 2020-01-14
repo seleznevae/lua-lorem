@@ -23,7 +23,7 @@ jobs:
         luarocks make
     - name: check_code
       run: |
-        luacheck lorem-0.1-0.rockspec
+        luacheck rockspec/lorem-0.1.0-1.rockspec
     - name: check_tests
       run: |
         luacheck spec

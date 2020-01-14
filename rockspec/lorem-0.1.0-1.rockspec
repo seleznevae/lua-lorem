@@ -1,5 +1,5 @@
 package = "lorem"
-version = "0.1-0"
+version = "0.1.0-1"
 source = {
    url = "https://github.com/ayuseleznev/lua-lorem"
 }
