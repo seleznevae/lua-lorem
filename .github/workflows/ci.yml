@@ -1,20 +1,15 @@
 name: CI
 
 on: [push]
-
-
     
 jobs:
   build:
-
-      
     runs-on: ubuntu-latest
     strategy:
       matrix:
         luaVersion: ["5.1.5", "5.2.4", "5.3.5", "luajit-2.0.5"]
 
     steps:
-
     - uses: actions/checkout@v1
     - uses: leafo/gh-actions-lua@v5
       with:
@@ -26,11 +21,12 @@ jobs:
         luarocks install busted
         luarocks install luacheck
         luarocks make
-    
-    - name: check
+    - name: check_code
       run: |
         luacheck lorem-0.1-0.rockspec
-        
+    - name: check_tests
+      run: |
+        luacheck spec
     - name: test
       run: |
         busted 
