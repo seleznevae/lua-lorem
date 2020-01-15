@@ -8,21 +8,40 @@ local function random_int(min, max)
     return math.random(min, max)
 end
 
+local BASE_PHRASE = [[
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Suspendisse rutrum accumsan elit vel auctor.
+Praesent sit amet aliquam turpis.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ultricies dignissim orci, sed imperdiet dui dignissim ut.
+Maecenas non erat ut elit sodales commodo.
+Nam gravida ipsum quis nulla tempus, quis pulvinar augue tristique.
+Nulla massa odio, imperdiet non ultricies tincidunt, viverra sed lorem.
+Nulla elementum sapien ut commodo aliquet.
+Pellentesque iaculis turpis tellus, eget laoreet augue condimentum vel.
+Quisque at risus rhoncus, facilisis tellus nec, tristique dolor.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas cursus magna eget imperdiet laoreet.
+]]
+
+local function get_words(phrase)
+    local list = {}
+    for word in phrase:gmatch('%a+') do
+        table.insert(list, word:lower())
+    end
+    return list
+end
+
 lorem.__index = lorem
-lorem.DATA = {
-    --luacheck: no max code line length
-    "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore", "magna", "aliqua", "ut", "enim", "ad", "minim", "veniam", "quis", "nostrud", "exercitation", "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo", "consequat", "duis", "aute", "irure", "dolor", "in", "reprehenderit", "in", "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla", "pariatur", "excepteur", "sint", "occaecat", "cupidatat", "non", "proident", "sunt", "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum"
-}
+lorem._dict = get_words(BASE_PHRASE)
 
 function lorem:generator(phrase)
     if type(phrase) ~= 'string' then
         error('First argument of lorem.generator should be a string', 2)
     end
-    local g = {DATA = {}}
+    local g = {_dict = {}}
     for word in phrase:gmatch('%a+') do
-        table.insert(g.DATA, word:lower())
+        table.insert(g._dict, word:lower())
     end
-    if #(g.DATA) == 0 then
+    if #(g._dict) == 0 then
         error('String argument of lorem.generator should contain words', 2)
     end
     setmetatable(g, self)
@@ -30,7 +49,7 @@ function lorem:generator(phrase)
 end
 
 function lorem:word()
-    return self.DATA[random_int(1, #(self.DATA))]
+    return self._dict[random_int(1, #(self._dict))]
 end
 
 function lorem:sentence()
